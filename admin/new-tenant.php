@@ -110,46 +110,9 @@
                                 $mysqli ->commit();
 
                                 //send an SMS to the new tenant
-                                
-                                $user="acenyakundi";
-                                $Key="4W26PsOgnySBnwf9CZJgEo2K5PyVq9KSBSiLfgCH8w3BHNE0mI";
-                                $senderId="SMARTLINK";
-                                $tophonenumber=$phone;
                                 $finalmessage="Hello ".$firstName.", You're welcome to Nyumbani Homes. You were admitted to ".$hsname." with rent amount of KES. ".$rentAmount." per month.";
-
-                                $url="https://sms.movesms.co.ke/api/compose?";
-                                $postData = array(
-                                'username' => $user,
-                                'api_key' => $Key,
-                                'sender' => $senderId,
-                                'to' => $tophonenumber,
-                                'message' => $finalmessage,
-                                'msgtype' => 5,
-                                'dlr' => 0,
-                                );
-
-                                $ch = curl_init();
-                                curl_setopt_array($ch, array(
-                                CURLOPT_URL => $url,
-                                CURLOPT_RETURNTRANSFER => true,
-                                CURLOPT_POST => true,
-                                CURLOPT_POSTFIELDS => $postData
-
-                                ));
-
-                                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-                                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-
-                                $output = curl_exec($ch);
-
-                                if (curl_errno($ch)) {
-
-                                $output = curl_error($ch);
-                                }
-
-                                curl_close($ch);
+                                sendSMS($phone, $finalmessage);
                                 
-
 
                                 //head to tenants table and report as an error state code 3. refer errors.php
                                 header('location:tenants.php?state=3');
@@ -207,6 +170,7 @@
                             <h3 class="box-title m-b-0"><i class="fa fa-user fa-3x"></i> Admit A New Tenant</h3>
                             <p class="text-muted m-b-30 font-13"> Fill in the form below: </p>
                             <div class="row">
+
                                 <div class="col-sm-12 col-xs-12">
                                     <form action="new-tenant.php" method="post">
                                         
@@ -268,6 +232,7 @@
                                         <button type="submit" name="admitTenant" class="btn btn-success btn-lg waves-effect waves-light m-r-10 center"><i class="fa fa-plus-circle fa-lg"></i> Admit this tenant</button>
                                     </form>
                                 </div>
+
                             </div>
                         </div>
                     </div>
